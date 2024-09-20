@@ -1,4 +1,4 @@
-## ascii-art-web
+## guess-it-1
 
 This is an excercise in the 01-edu curriculum about guessing in what range a next number might fit based on previous numbers.
 
