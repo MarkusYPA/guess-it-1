@@ -14,8 +14,12 @@ func isInt(s string) bool {
 	if len(s) == 0 {
 		return false
 	}
-	for _, r := range s {
-		if !unicode.IsNumber(r) {
+	for i, r := range s {
+		if i == 0 && !unicode.IsNumber(r) && r != '-' && r != '+' {
+			return false
+		}
+
+		if i > 0 && !unicode.IsNumber(r) {
 			return false
 		}
 	}
@@ -26,6 +30,7 @@ func guessNextRange(nums []int) string {
 	if len(nums) == 0 {
 		return "no data"
 	}
+
 	numsF := []float64{}
 	for _, n := range nums {
 		numsF = append(numsF, float64(n))
@@ -33,12 +38,12 @@ func guessNextRange(nums []int) string {
 
 	rng := [2]int{}
 
-	if len(nums) == 1 {
-		rng[0] = int(float64(nums[0]) - ms.Abs(float64(nums[0])))
-		rng[1] = int(float64(nums[0]) + ms.Abs(float64(nums[0])))
+	if len(numsF) == 1 {
+		rng[0] = ms.RoundToInt(numsF[0]) - ms.RoundToInt((ms.Abs(numsF[0])))
+		rng[1] = ms.RoundToInt((numsF[0]) + ms.Abs((numsF[0])))
 	} else {
-		rng[0] = int(ms.Average(numsF) - ms.Abs(ms.StandardDeviation(numsF)))
-		rng[1] = int(ms.Average(numsF) + ms.Abs(ms.StandardDeviation(numsF)))
+		rng[0] = ms.RoundToInt(ms.Average(numsF) - ms.Abs(ms.StandardDeviation(numsF)))
+		rng[1] = ms.RoundToInt(ms.Average(numsF) + ms.Abs(ms.StandardDeviation(numsF)))
 	}
 
 	return fmt.Sprintf("%v %v", rng[0], rng[1])
