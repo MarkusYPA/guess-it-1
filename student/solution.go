@@ -78,6 +78,7 @@ func guessNextRange(nums []int) string {
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	numbers := []int{}
+	seen := 0
 
 	for scanner.Scan() {
 		txt := scanner.Text()
@@ -93,8 +94,18 @@ func main() {
 				fmt.Println(err.Error())
 				break
 			}
-			numbers = append(numbers, num)
+
+			// Only ever deal with data sets maximum 100 long
+			if seen < 100 {
+				seen++
+				numbers = append(numbers, num)
+			} else {
+				numbers = append(numbers[1:], num)
+			}
+
 			fmt.Println(guessNextRange(numbers))
+
+			//fmt.Println(100, 200)
 		}
 	}
 }

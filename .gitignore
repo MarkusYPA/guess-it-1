@@ -1,3 +1,5 @@
 .DS_Store
 guess-it/
 guess-it-dockerized*
+student/numwriter
+numwriter/numwriter

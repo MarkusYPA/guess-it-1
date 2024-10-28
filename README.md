@@ -24,3 +24,5 @@ cd student\
 go run solution.go  
 - Make sure your project go version is 1.23
 - After a failed attempt, delete container and image from docker desktop
+- Most difficult given cases: data 1, average and data 3, median
+
