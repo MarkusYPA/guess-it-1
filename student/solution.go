@@ -81,7 +81,7 @@ func main() {
 
 	for scanner.Scan() {
 		txt := scanner.Text()
-		if txt == "exit" || txt == "quit" || txt == "quit" {
+		if txt == "exit" || txt == "quit" || txt == "" {
 			break
 		}
 

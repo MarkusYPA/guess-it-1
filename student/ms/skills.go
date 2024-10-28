@@ -35,24 +35,17 @@ func medianWithSorted(d []float64) float64 {
 	}
 }
 
-// median returns the median of a slice of float64s
+// Quarters returns the minimum, 1st quartile, median, 3rd quartile and maximum values
 func Quarters(d []float64) [5]float64 {
 	qs := [5]float64{}
 
 	dSorted := bubSort(d)
 	ln := len(dSorted)
 
-	/* 	qs[0] = dSorted[0]
-	   	qs[1] = medianWithSorted(dSorted[:ln/2])
-	   	qs[2] = medianWithSorted(dSorted)
-	   	qs[3] = medianWithSorted(dSorted[(ln+1)/2:])
-	   	qs[4] = dSorted[ln-1] */
-
 	qs[0] = dSorted[0]
-	//qs[1] = medianWithSorted(dSorted[:ln/2])
-	qs[1] = medianWithSorted(dSorted[((ln + 1) / 4) : ln/2])
+	qs[1] = medianWithSorted(dSorted[:ln/2])
 	qs[2] = medianWithSorted(dSorted)
-	qs[3] = medianWithSorted(dSorted[(ln+1)/2 : ln-((ln+1)/4)])
+	qs[3] = medianWithSorted(dSorted[(ln+1)/2:])
 	qs[4] = dSorted[ln-1]
 
 	return qs
