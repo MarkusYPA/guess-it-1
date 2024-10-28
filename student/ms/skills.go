@@ -54,6 +54,7 @@ func Variance(d []float64) float64 {
 	return sumOfSqOfDiff / float64(len(d))
 }
 
+// StandardDeviation returns the square root of Variance()
 func StandardDeviation(d []float64) float64 {
 	return sqrt(Variance(d))
 }
