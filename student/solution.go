@@ -10,6 +10,7 @@ import (
 	"01.gritlab.ax/git/mamberla/guess-it-1/ms"
 )
 
+// isInt checks if the provided string is an integer
 func isInt(s string) bool {
 	if len(s) == 0 {
 		return false
@@ -26,7 +27,39 @@ func isInt(s string) bool {
 	return true
 }
 
+// avgAndSD returns the mean of the data plus and minus the standard deviation
+func avgAndSD(nums []float64) [2]int {
+	rng := [2]int{}
+
+	if len(nums) == 1 {
+		rng[0] = ms.RoundToInt(nums[0]) - ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+		rng[1] = ms.RoundToInt(nums[0]) + ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+	} else {
+		rng[0] = ms.RoundToInt(ms.Average(nums) - ms.Abs(ms.StandardDeviation(nums)))
+		rng[1] = ms.RoundToInt(ms.Average(nums) + ms.Abs(ms.StandardDeviation(nums)))
+	}
+
+	return rng
+}
+
+// box returns 1st and 3rd quartile cutting points, often seen in box plots
+func box(nums []float64) [2]int {
+	rng := [2]int{}
+
+	if len(nums) == 1 {
+		rng[0] = ms.RoundToInt(nums[0]) - ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+		rng[1] = ms.RoundToInt(nums[0]) + ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+	} else {
+		rng[0] = ms.RoundToInt(ms.Quarters(nums)[1])
+		rng[1] = ms.RoundToInt(ms.Quarters(nums)[3])
+	}
+
+	return rng
+}
+
+// guessNextRange makes a guess about in which range the next number will be
 func guessNextRange(nums []int) string {
+
 	if len(nums) == 0 {
 		return "no data"
 	}
@@ -36,15 +69,8 @@ func guessNextRange(nums []int) string {
 		numsF = append(numsF, float64(n))
 	}
 
-	rng := [2]int{}
-
-	if len(numsF) == 1 {
-		rng[0] = ms.RoundToInt(numsF[0]) - ms.RoundToInt((ms.Abs(numsF[0])))
-		rng[1] = ms.RoundToInt((numsF[0]) + ms.Abs((numsF[0])))
-	} else {
-		rng[0] = ms.RoundToInt(ms.Average(numsF) - ms.Abs(ms.StandardDeviation(numsF)))
-		rng[1] = ms.RoundToInt(ms.Average(numsF) + ms.Abs(ms.StandardDeviation(numsF)))
-	}
+	//rng := avgAndSD(numsF)
+	rng := box(numsF)
 
 	return fmt.Sprintf("%v %v", rng[0], rng[1])
 }

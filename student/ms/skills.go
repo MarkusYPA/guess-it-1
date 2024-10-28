@@ -24,12 +24,31 @@ func Average(d []float64) float64 {
 
 // median returns the median of a slice of float64s
 func Median(d []float64) float64 {
-	d = bubSort(d)
+	return medianWithSorted(bubSort(d))
+}
+
+func medianWithSorted(d []float64) float64 {
 	if len(d)%2 == 0 {
 		return (d[len(d)/2] + d[(len(d)/2)-1]) / 2
 	} else {
 		return d[len(d)/2]
 	}
+}
+
+// median returns the median of a slice of float64s
+func Quarters(d []float64) [5]float64 {
+	qs := [5]float64{}
+
+	dSorted := bubSort(d)
+	ln := len(dSorted)
+
+	qs[0] = dSorted[0]
+	qs[1] = medianWithSorted(dSorted[:ln/2])
+	qs[2] = medianWithSorted(dSorted)
+	qs[3] = medianWithSorted(dSorted[(ln+1)/2:])
+	qs[4] = dSorted[ln-1]
+
+	return qs
 }
 
 // bubSort is a bubble sort function that arranges a slice of float64s from smallest to largest
