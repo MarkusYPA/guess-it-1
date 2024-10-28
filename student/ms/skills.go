@@ -42,10 +42,17 @@ func Quarters(d []float64) [5]float64 {
 	dSorted := bubSort(d)
 	ln := len(dSorted)
 
+	/* 	qs[0] = dSorted[0]
+	   	qs[1] = medianWithSorted(dSorted[:ln/2])
+	   	qs[2] = medianWithSorted(dSorted)
+	   	qs[3] = medianWithSorted(dSorted[(ln+1)/2:])
+	   	qs[4] = dSorted[ln-1] */
+
 	qs[0] = dSorted[0]
-	qs[1] = medianWithSorted(dSorted[:ln/2])
+	//qs[1] = medianWithSorted(dSorted[:ln/2])
+	qs[1] = medianWithSorted(dSorted[((ln + 1) / 4) : ln/2])
 	qs[2] = medianWithSorted(dSorted)
-	qs[3] = medianWithSorted(dSorted[(ln+1)/2:])
+	qs[3] = medianWithSorted(dSorted[(ln+1)/2 : ln-((ln+1)/4)])
 	qs[4] = dSorted[ln-1]
 
 	return qs
