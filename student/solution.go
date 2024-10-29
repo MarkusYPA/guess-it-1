@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"strconv"
@@ -58,10 +59,10 @@ func box(nums []float64) [2]int {
 }
 
 // guessNextRange makes a guess about in which range the next number will be
-func guessNextRange(nums []int) string {
+func guessNextRange(nums []int) (int, int) {
 
 	if len(nums) == 0 {
-		return "no data"
+		return 0, 0
 	}
 
 	numsF := []float64{}
@@ -72,13 +73,19 @@ func guessNextRange(nums []int) string {
 	//rng := avgAndSD(numsF)
 	rng := box(numsF)
 
-	return fmt.Sprintf("%v %v", rng[0], rng[1])
+	return rng[0], rng[1]
 }
 
 func main() {
+	pointsOn := flag.Bool("points", false, "Display the points at the end or not")
+	flag.Parse()
+
 	scanner := bufio.NewScanner(os.Stdin)
 	numbers := []int{}
 	seen := 0
+	guess := "100 200"
+	r1, r2 := 0, 0
+	points := 0
 
 	for scanner.Scan() {
 		txt := scanner.Text()
@@ -95,6 +102,13 @@ func main() {
 				break
 			}
 
+			points += getPoints(num, r1, r2)
+
+			if seen > 5 && isOutlier(num, numbers) {
+				fmt.Println(guess)
+				continue
+			}
+
 			// Only ever deal with data sets maximum 100 long
 			if seen < 100 {
 				seen++
@@ -103,9 +117,38 @@ func main() {
 				numbers = append(numbers[1:], num)
 			}
 
-			fmt.Println(guessNextRange(numbers))
+			r1, r2 = guessNextRange(numbers)
+			guess = fmt.Sprintf("%v %v", r1, r2)
+			fmt.Println(guess)
 
 			//fmt.Println(100, 200)
 		}
 	}
+	if *pointsOn {
+		fmt.Printf("\n%v points aquired\n", points)
+	}
+}
+
+func getPoints(num, r1, r2 int) int {
+	points := 0
+	rangeWidth := r2 - r1 + 1
+	if num >= r1 && num <= r2 {
+		points += 800 / rangeWidth
+	}
+	return points
+}
+
+func isOutlier(n int, nums []int) bool {
+	floats := toFloats(nums)
+	//fmt.Println("Testing outlier, this greater than that?", ms.Abs(float64(n)-ms.Average(floats)), ms.Variance(floats)*2.0, ms.Abs(float64(n)-ms.Average(floats)) > ms.Variance(floats)*2.0)
+	return ms.Abs(float64(n)-ms.Average(floats)) > ms.Variance(floats)*2.0
+}
+
+func toFloats(nums []int) []float64 {
+	floats := make([]float64, len(nums))
+	for i, n := range nums {
+		floats[i] = float64(n)
+	}
+	//fmt.Println("floats:", floats)
+	return floats
 }

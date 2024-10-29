@@ -14,7 +14,7 @@ func main() {
 		log.Fatalln("Give two arguments")
 	}
 
-	address := fmt.Sprintf("data_sets/%s/%s.txt", os.Args[1], os.Args[1])
+	address := fmt.Sprintf("data_sets/%s/%s.txt", os.Args[1], os.Args[2])
 
 	numsFile, err := os.ReadFile(address)
 	if err != nil {
