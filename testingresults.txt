@@ -1,10 +1,15 @@
 
 29.10 11.18
 
-Results with box
+Results		Results		last values
+with box	in test
 
-96139
-98174
-98989
-97471
-97420
+Data 1						average
+
+96139		98062		132, 166	W
+98174		100693		112, 124	W
+98989		99412		116, 195	W
+97471		99282		140, 144	L
+97420		100693		112, 112	W
+
+		

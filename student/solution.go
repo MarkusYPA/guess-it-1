@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"log"
+	"math"
 	"os"
 	"strconv"
 	"unicode"
@@ -29,15 +31,30 @@ func isInt(s string) bool {
 }
 
 // avgAndSD returns the mean of the data plus and minus the standard deviation
-func avgAndSD(nums []float64) [2]int {
+func medAndSD(nums []float64, mult float64) [2]int {
 	rng := [2]int{}
 
 	if len(nums) == 1 {
 		rng[0] = ms.RoundToInt(nums[0]) - ms.RoundToInt((ms.Abs(nums[0]))/2.0)
 		rng[1] = ms.RoundToInt(nums[0]) + ms.RoundToInt((ms.Abs(nums[0]))/2.0)
 	} else {
-		rng[0] = ms.RoundToInt(ms.Average(nums) - ms.Abs(ms.StandardDeviation(nums)))
-		rng[1] = ms.RoundToInt(ms.Average(nums) + ms.Abs(ms.StandardDeviation(nums)))
+		rng[0] = ms.RoundToInt(ms.Median(nums) - ms.Abs(ms.StandardDeviation(nums))*mult)
+		rng[1] = ms.RoundToInt(ms.Median(nums) + ms.Abs(ms.StandardDeviation(nums))*mult)
+	}
+
+	return rng
+}
+
+// avgAndSD returns the mean of the data plus and minus the standard deviation
+func avgAndSD(nums []float64, mult float64) [2]int {
+	rng := [2]int{}
+
+	if len(nums) == 1 {
+		rng[0] = ms.RoundToInt(nums[0]) - ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+		rng[1] = ms.RoundToInt(nums[0]) + ms.RoundToInt((ms.Abs(nums[0]))/2.0)
+	} else {
+		rng[0] = ms.RoundToInt(ms.Average(nums) - ms.Abs(ms.StandardDeviation(nums))*mult)
+		rng[1] = ms.RoundToInt(ms.Average(nums) + ms.Abs(ms.StandardDeviation(nums))*mult)
 	}
 
 	return rng
@@ -58,8 +75,35 @@ func box(nums []float64) [2]int {
 	return rng
 }
 
+func sillyGuess(nums []int) [2]int {
+	rng := [2]int{}
+
+	if len(nums) == 1 {
+		rng[0] = nums[0]
+		rng[1] = nums[0]
+	} else if len(nums) == 2 {
+		if nums[0] < nums[1] {
+			rng[0] = nums[0]
+			rng[1] = nums[1]
+		} else {
+			rng[0] = nums[1]
+			rng[1] = nums[0]
+		}
+	} else {
+		if nums[len(nums)-3] < nums[len(nums)-1] {
+			rng[0] = nums[len(nums)-3]
+			rng[1] = nums[len(nums)-1]
+		} else {
+			rng[0] = nums[len(nums)-1]
+			rng[1] = nums[len(nums)-3]
+		}
+	}
+
+	return rng
+}
+
 // guessNextRange makes a guess about in which range the next number will be
-func guessNextRange(nums []int) (int, int) {
+func guessNextRange(nums []int, mult float64) (int, int) {
 
 	if len(nums) == 0 {
 		return 0, 0
@@ -70,8 +114,11 @@ func guessNextRange(nums []int) (int, int) {
 		numsF = append(numsF, float64(n))
 	}
 
-	//rng := avgAndSD(numsF)
-	rng := box(numsF)
+	//rng := box(numsF)
+	//rng := avgAndSD(numsF, mult)
+	rng := medAndSD(numsF, mult)
+	//rng := [2]int{nums[len(nums)-1], nums[len(nums)-1]}
+	//rng := sillyGuess(nums)
 
 	return rng[0], rng[1]
 }
@@ -79,6 +126,15 @@ func guessNextRange(nums []int) (int, int) {
 func main() {
 	pointsOn := flag.Bool("points", false, "Display the points at the end or not")
 	flag.Parse()
+
+	mult := 0.67
+	if len(flag.Args()) == 1 {
+		val, e := strconv.ParseFloat(flag.Arg(0), 64)
+		if e != nil {
+			log.Fatalln(e.Error())
+		}
+		mult = val
+	}
 
 	scanner := bufio.NewScanner(os.Stdin)
 	numbers := []int{}
@@ -117,9 +173,10 @@ func main() {
 				numbers = append(numbers[1:], num)
 			}
 
-			r1, r2 = guessNextRange(numbers)
+			fmt.Printf("%s  %v %v\n", guess, num, points)
+
+			r1, r2 = guessNextRange(numbers, mult)
 			guess = fmt.Sprintf("%v %v", r1, r2)
-			fmt.Println(guess)
 
 			//fmt.Println(100, 200)
 		}
@@ -130,12 +187,12 @@ func main() {
 }
 
 func getPoints(num, r1, r2 int) int {
-	points := 0
+	points := 0.0
 	rangeWidth := r2 - r1 + 1
 	if num >= r1 && num <= r2 {
-		points += 800 / rangeWidth
+		points += 800 / float64(rangeWidth)
 	}
-	return points
+	return int(math.Round(points))
 }
 
 func isOutlier(n int, nums []int) bool {
