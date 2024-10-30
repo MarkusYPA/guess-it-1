@@ -102,6 +102,28 @@ func sillyGuess(nums []int) [2]int {
 	return rng
 }
 
+func hardRange(m float64) [2]int {
+	/* 	if m == 1.0 {
+	   		return [2]int{113, 113}
+	   	}
+	   	if m == 2.0 {
+	   		return [2]int{112, 113}
+	   	}
+	   	if m == 3.0 {
+	   		return [2]int{112, 114}
+	   	}
+	   	if m == 4.0 {
+	   		return [2]int{112, 115}
+	   	}
+	   	return [2]int{112, 116} */
+
+	//return [2]int{113, 113}
+	//return [2]int{112, 113}
+	return [2]int{112, 114}
+	//return [2]int{112, 115}
+	//return [2]int{112, 116}
+}
+
 // guessNextRange makes a guess about in which range the next number will be
 func guessNextRange(nums []int, mult float64) (int, int) {
 
@@ -116,9 +138,10 @@ func guessNextRange(nums []int, mult float64) (int, int) {
 
 	//rng := box(numsF)
 	//rng := avgAndSD(numsF, mult)
-	rng := medAndSD(numsF, mult)
+	//rng := medAndSD(numsF, mult)
 	//rng := [2]int{nums[len(nums)-1], nums[len(nums)-1]}
 	//rng := sillyGuess(nums)
+	rng := hardRange(mult)
 
 	return rng[0], rng[1]
 }
@@ -173,11 +196,12 @@ func main() {
 				numbers = append(numbers[1:], num)
 			}
 
-			fmt.Printf("%s  %v %v\n", guess, num, points)
+			//fmt.Printf("%s  %v %v\n", guess, num, points)
 
 			r1, r2 = guessNextRange(numbers, mult)
 			guess = fmt.Sprintf("%v %v", r1, r2)
 
+			fmt.Printf("%s\n", guess)
 			//fmt.Println(100, 200)
 		}
 	}
