@@ -206,7 +206,7 @@ func main() {
 		}
 	}
 	if *pointsOn {
-		fmt.Printf("\n%v points aquired\n", points)
+		fmt.Printf("\n%v\n", points)
 	}
 }
 

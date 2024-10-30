@@ -4,6 +4,8 @@ guess-it-dockerized*
 student/numwriter
 student/sdsizer
 student/freqs
+student/runnums
 numwriter/numwriter
 sdsizetester/sdsizer
 freqs/freqs
+runthenumbers/runnums
