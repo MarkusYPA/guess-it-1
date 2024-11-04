@@ -49,4 +49,5 @@ cd student\
 go run solution.go  
 - Make sure your project go version is 1.23 (or the same the dockerized program uses)
 - To run the tester with a newer version of the main program: close Docker, delete the container and the image from Docker desktop, copy the updated solution.go over the old one and run "docker compose up" again.
+- Modifying permissions of script.sh and the executable ai models in the ai/ folder might be necessary
 
