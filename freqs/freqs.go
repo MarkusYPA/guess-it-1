@@ -48,7 +48,6 @@ func main() {
 	for i, n := range numsAgain {
 		fmt.Println(i+100, n)
 	}
-	//fmt.Println(numsAgain)
 }
 
 func check(e error) {

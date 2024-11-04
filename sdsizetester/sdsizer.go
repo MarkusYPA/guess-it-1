@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"runtime"
 	"strconv"
 	"strings"
 )
@@ -19,15 +20,22 @@ func main() {
 	//inputs := []float64{0.61, 0.62, 0.63, 0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.70, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79}
 	//inputs := []float64{0.66, 0.67, 0.68, 0.69, 0.70, 0.71, 0.72, 0.73, 0.74, 0.75, 0.76, 0.77, 0.78, 0.79, 0.80, 0.81, 0.82, 0.83, 0.84, 0.85}
 	//inputs := []float64{1.03, 1.04, 1.05, 1.06, 1.07, 1.08, 1.09, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17, 1.18, 1.19, 1.20, 1.21, 1.22}
-	inputs := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
+	//inputs := []float64{1.0, 2.0, 3.0, 4.0, 5.0}
+	inputs := []float64{0.64, 0.65, 0.66, 0.67, 0.68, 0.69, 0.70, 0.71, 0.72, 0.73, 0.74, 0.75}
+
 	avgs := []average{}
 
-	for _, in := range inputs {
+	os := runtime.GOOS
+	extension := ""
+	if os == "windows" {
+		extension = ".exe"
+	}
 
+	for _, in := range inputs {
 		outputs := []int{}
 		for i := 1; i < 4; i++ {
 			for j := 1; j < 6; j++ {
-				line := fmt.Sprintf("./numwriter %v %v | go run . -points=true %f | tail -1", i, j, in)
+				line := fmt.Sprintf("./numwriter%v %v %v | go run . -points=true %f | tail -1", extension, i, j, in)
 				cmd := exec.Command("bash", "-c", line)
 
 				output, err1 := cmd.CombinedOutput()
