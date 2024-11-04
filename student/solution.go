@@ -56,7 +56,7 @@ func guessNextRange(nums []int, mult float64) (int, int) {
 }
 
 func main() {
-	pointsOn := flag.Bool("points", false, "Display the points at the end or not")
+	pointsOn := flag.Bool("points", false, "To display accrued points at the end, set to true")
 	flag.Parse()
 
 	mult := 0.71 //0.67
@@ -133,7 +133,7 @@ func isOutlier(n int, nums []int) bool {
 	return ms.Abs(float64(n)-ms.Average(floats)) > ms.Variance(floats)*2.0
 }
 
-// toFloas converts a slice of ints to float64s
+// toFloats converts a slice of ints to float64s
 func toFloats(nums []int) []float64 {
 	floats := make([]float64, len(nums))
 	for i, n := range nums {

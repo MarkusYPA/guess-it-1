@@ -19,7 +19,7 @@ http://localhost:3000/?guesser=average
 
 ### Folder structure
 
-Guess-it-1 contains five programs. The main program is in the "student" folder, the others are there to help analyze the given data sets and to test how the main program fares against ai models.
+Guess-it-1 contains six programs. The main program is in the "student" folder, four of the others are there to help analyze the given data sets and to test how the main program fares against ai models. The program in the folder "stupidsimple" is just for fun.
 
 All helper programs are meant to be compiled into executables and run in the student folder. They are:
 
