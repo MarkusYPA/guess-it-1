@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-var avgScores [][]int = [][]int{{94720, 100640, 100320, 87360, 104160}, {500, 500, 500, 500, 500}, {960, 640, 320, 500, 1280}}
+var avgScores [][]int = [][]int{{94720, 100640, 100320, 87360, 104160}, {640, 320, 640, 480, 1280}, {960, 640, 320, 500, 1280}}
 var medScores [][]int = [][]int{{94608, 99499, 101835, 98404, 102273}, {96433, 96287, 100229, 99134, 101543}, {100959, 99791, 102930, 94973, 97966}}
 
 func main() {
@@ -35,7 +35,7 @@ func main() {
 			pointStr := string(points[:len(points)-1]) // last char is line feed
 			pointInt, err2 := strconv.Atoi(pointStr)
 			if err2 != nil {
-				log.Fatalf(err2.Error())
+				log.Fatalln(err2.Error())
 			}
 
 			winLossA := ""
