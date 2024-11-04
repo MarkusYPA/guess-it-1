@@ -38,10 +38,7 @@ func guessNextRange(nums []int, mult float64) (int, int) {
 		return 0, 0
 	}
 
-	numsF := []float64{}
-	for _, n := range nums {
-		numsF = append(numsF, float64(n))
-	}
+	numsF := toFloats(nums)
 
 	//rng := guessing.Box(numsF)
 	//rng := guessing.AvgAndSD(numsF, mult) // 3* 3/5 + 1* 4/5 with mult 0.67

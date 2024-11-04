@@ -9,7 +9,7 @@ import (
 // MedAndSD returns the median of the data plus and minus a multiple of the standard deviation
 func MedAndSD(nums []float64, mult float64) [2]int {
 	rng := [2]int{}
-	sd := ms.Abs(ms.StandardDeviation(nums)) * mult
+	sd := ms.StandardDeviation(nums) * mult
 
 	if len(nums) == 1 {
 		rng[0] = ms.RoundToInt(nums[0]) - ms.RoundToInt((ms.Abs(nums[0]))/2.0)
