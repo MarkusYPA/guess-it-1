@@ -59,7 +59,7 @@ func main() {
 	pointsOn := flag.Bool("points", false, "Display the points at the end or not")
 	flag.Parse()
 
-	mult := 0.7 //0.67
+	mult := 0.71 //0.67
 	if len(flag.Args()) == 1 {
 		val, e := strconv.ParseFloat(flag.Arg(0), 64)
 		if e != nil {
