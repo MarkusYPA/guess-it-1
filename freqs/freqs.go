@@ -26,7 +26,7 @@ func main() {
 		numsMap[n]++
 	}
 
-	numsAgain := make([]int, 101)
+	numsAgain := make([][2]int, 101)
 	for key, value := range numsMap {
 
 		if key == "" {
@@ -40,13 +40,20 @@ func main() {
 			continue
 		}
 
-		numsAgain[keyInt-100] = value
+		numsAgain[keyInt-100] = [2]int{keyInt, value}
 	}
 
-	//sort.Ints(numsAgain)
+	// Sort by frequency if you like
+	for i := 0; i < len(numsAgain)-1; i++ {
+		for j := i + 1; j < len(numsAgain); j++ {
+			if numsAgain[i][1] < numsAgain[j][1] {
+				numsAgain[i], numsAgain[j] = numsAgain[j], numsAgain[i]
+			}
+		}
+	}
 
-	for i, n := range numsAgain {
-		fmt.Println(i+100, n)
+	for _, numFreq := range numsAgain {
+		fmt.Println(numFreq[0], numFreq[1])
 	}
 }
 

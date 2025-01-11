@@ -33,6 +33,7 @@ func main() {
 
 	for _, in := range inputs {
 		outputs := []int{}
+		fmt.Printf("%f: ", in)
 		for i := 1; i < 4; i++ {
 			for j := 1; j < 6; j++ {
 				line := fmt.Sprintf("./numwriter%v %v %v | go run . -points=true %f | tail -1", extension, i, j, in)
@@ -47,6 +48,8 @@ func main() {
 					log.Fatalln(err2.Error())
 				}
 				outputs = append(outputs, resu)
+
+				fmt.Print("x")
 			}
 		}
 		sum := 0
@@ -54,7 +57,13 @@ func main() {
 			sum += n
 		}
 		avgs = append(avgs, average{in, sum / len(outputs)})
-	}
 
-	fmt.Println(avgs)
+		fmt.Println()
+	}
+	fmt.Println()
+
+	fmt.Println("Average scores for arguments to program:")
+	for _, avg := range avgs {
+		fmt.Println(avg.input, avg.result)
+	}
 }
